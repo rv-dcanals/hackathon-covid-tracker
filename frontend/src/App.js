@@ -1,31 +1,15 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import Title from "./components/Title";
 import './App.css';
+import Stateselect from './components/StateSelect';
 
 function App() {
 
-  useEffect(() => {
-    fetch('http://localhost:3000/meta')
-      .then(response => response.json())
-      .then(data => console.log(data[0]));
-  }, [])
-
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Title name="Hello, world"/>
+        <Stateselect/>
     </div>
   );
 }
