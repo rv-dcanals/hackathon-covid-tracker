@@ -18,16 +18,26 @@ export default class StateSelect extends Component {
         .then(res => res.json())
         .then(
             (result) => { 
-                // for (var i = 0; i < result.length; )
-                this.setState({ 
-                    info: result[55]
+                // var stateNames = [];
+                // for (var i = 0; i < result.length; i++) {
+                //     stateNames[i] = result[i].state; 
+                // }
+                var stateNames = result.map((data) => {
+                    return data.state
                 });
-                console.log(result[55])
+                this.setState({ 
+                    info: result[55],
+                    stateList: stateNames
+                });
+                console.log(stateNames)
             }
         )
     }
     render() {
-        const { info } = this.state; 
+        const { info, stateList } = this.state; 
+        let stateOptions = stateList.map((state) => 
+            <a key={state} href="#">{state}</a>
+        );
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
@@ -35,14 +45,13 @@ export default class StateSelect extends Component {
                 <div className="dropdown">
                     <button className="dropbtn">Select a state</button>
                     <div className="dropdown-content">
-                        <a href="#">New York</a>
-                        <a href="#">California</a>
-                        <a href="#">Florida</a>
+                        {stateOptions}
                     </div>
                 </div>
             </div>
             <p>Last updated: {info.lastUpdateEt}</p>
         </div>
         )
+
     }
 }
