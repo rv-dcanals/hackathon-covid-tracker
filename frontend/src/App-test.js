@@ -4,7 +4,7 @@ import './App.css';
 import Stateselect from './components/StateSelect';
 import Title from './components/Title';
 
-export default class App extends Component { 
+class App extends Component { 
     constructor() { 
         super(); 
         this.state = {
@@ -19,7 +19,7 @@ export default class App extends Component {
           console.log(data.text);
         });
 
-        // (() => { console.log("Hello")}, [])
+        (() => { console.log("Hello")}, [])
 
       fetch('http://ip-api.com/json/')
       .then(response => response.json())

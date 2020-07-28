@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/StateSelect.css';
-import { abbrState } from './stateAbbr.js';
+import { abbrState } from '../functions/stateAbbr.js';
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -11,13 +11,29 @@ export default class StateSelect extends Component {
             stateList: [],
             value: '',
             valueAbbr: '', 
-            selectedState: [], 
+            selectedState: [],
+            location: [], 
+            locationST: ''
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
     componentDidMount() { 
+
+        fetch('http://ip-api.com/json/')
+        .then(response => response.json())
+        .then(data => {
+        //   console.log(data); //Also has city, longitude, and latitude
+        //   console.log(data.region); //This is the 2-letter state name
+            this.setState({
+                location: data,
+                //locationST: data.region
+            })
+        });
+
+        
+
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
         .then(res => res.json())
@@ -26,7 +42,7 @@ export default class StateSelect extends Component {
                 var stateNames = result.map((data) => {
                     return abbrState(data.state, 'name');
                 });
-                var selectedState = result.filter(data => data.state==="PR")
+                var selectedState = result.filter(data => data.state===this.props.location)
                 this.setState({ 
                     result: result,
                     info: selectedState[0],
@@ -50,11 +66,10 @@ export default class StateSelect extends Component {
         this.setState({
             info: updatedState[0]
         })
-      }
+    }
     
     render() {
-        const { info, stateList } = this.state; 
-
+        const { info, stateList, location } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
@@ -64,13 +79,15 @@ export default class StateSelect extends Component {
             <div className ="header-and-dropdown">
                 <h1 className="display">{abbrState(info.state, 'name')}</h1>
                 <div>
+                    <label>Select a state...
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange}>
-                                    <option value="placeholder">Select a State...</option>
+                                    {/* <option value="placeholder">Select a State...</option> */}
                                     {stateOptions}
                             </select>
                         <input type="submit" value="Select"></input>
                     </form>
+                    </label>
                 </div>
             </div>
             <p>Last updated: {info.lastUpdateEt}</p>
