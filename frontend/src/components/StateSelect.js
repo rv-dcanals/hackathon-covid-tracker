@@ -12,13 +12,13 @@ export default class StateSelect extends Component {
             value: '',
             valueAbbr: '', 
             selectedState: [],
-            location: [], 
+            link: []
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
-    componentDidMount() { 
+    componentWillMount() {
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
         .then(res => res.json())
@@ -27,18 +27,15 @@ export default class StateSelect extends Component {
                 var stateNames = result.map((data) => {
                     return abbrState(data.state, 'name');
                 });
-                // console.log("props: did mount, " + this.props.location)
-                 var selectedState = result.filter(data => data.state===this.props.location)
-                // console.log(selectedState)
+                var selectedState = result.filter(data => data.state===this.props.location)
                 this.setState({ 
-                    info: result,
-                     info: selectedState[0],
+                    result: result,
+                    info: selectedState[0],
                     stateList: stateNames
                 });
             }
         )
-    }
-
+        }
 
     handleChange(event) {
         this.setState({
@@ -54,27 +51,27 @@ export default class StateSelect extends Component {
         this.setState({
             info: updatedState[0]
         })
-    }
+      }
     
     render() {
-        const { info, stateList, location } = this.state; 
+        const { info, stateList, link } = this.state; 
+
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
+        console.log("Link: "+link)
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
                 <h1 className="display">{abbrState(info.state, 'name')}</h1>
                 <div>
-                    <label>Select a state...
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange}>
-                                    {/* <option value="placeholder">Select a State...</option> */}
+                                    <option value="placeholder">Select a State...</option>
                                     {stateOptions}
                             </select>
                         <input type="submit" value="Select"></input>
                     </form>
-                    </label>
                 </div>
             </div>
             <p>Last updated: {info.lastUpdateEt}</p>
