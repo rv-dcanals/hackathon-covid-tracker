@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import firebase from "./Firebase/firebase.js"
-import logo from './logo.svg';
 import './App.css';
 import Stateselect from './components/StateSelect';
 import Title from './components/Title';
-
 
 
 const verifyUserExists = () => {
@@ -61,7 +59,7 @@ function App() {
   return (
     <div className="App">
         <Title name="COVID Tracker"/>
-        <Stateselect name="hello"/>
+        <Stateselect/>
     </div>
   );
 }
