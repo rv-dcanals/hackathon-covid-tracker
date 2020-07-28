@@ -9,7 +9,7 @@ const app = new express();
 app.use(cors())
 
 app.get("/backToFrontConnection", (req, result) => {
-  console.log(req); //Logs in the terminal
+  //NOTE: req is any request data sent with the connection. Send in data as a json object.
   const resultObject = {text: "You have connected to the backend!"}
   result.send(resultObject);
 
