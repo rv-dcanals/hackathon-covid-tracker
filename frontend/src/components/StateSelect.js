@@ -1,5 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import '../styles/StateSelect.css';
+import { abbrState } from './stateAbbr.js';
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -18,38 +19,43 @@ export default class StateSelect extends Component {
         .then(res => res.json())
         .then(
             (result) => { 
-                // var stateNames = [];
-                // for (var i = 0; i < result.length; i++) {
-                //     stateNames[i] = result[i].state; 
-                // }
                 var stateNames = result.map((data) => {
-                    return data.state
+                    return abbrState(data.state, 'name');
                 });
+                // var selectedState = result.filter(data => data.state==="CT")
                 this.setState({ 
-                    info: result[55],
+                    info: result[7],
                     stateList: stateNames
                 });
-                console.log(stateNames)
             }
         )
     }
+    
     render() {
         const { info, stateList } = this.state; 
+
         let stateOptions = stateList.map((state) => 
-            <a key={state} href="#">{state}</a>
+            <option key={state}>{state}</option>
+            //todo: set up clicking on button and changing data 
         );
+       
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
-            <h1 className="display">{info.state}</h1>
-                <div className="dropdown">
-                    <button className="dropbtn">Select a state</button>
-                    <div className="dropdown-content">
-                        {stateOptions}
-                    </div>
-                </div>
+            <h1 className="display">{abbrState(info.state, 'name')}</h1>
+            <select name='state-select' id="state-select">
+                    <option>Select a State...</option>
+                    {stateOptions}
+            </select>
+            </div>
+            <div>
+                
             </div>
             <p>Last updated: {info.lastUpdateEt}</p>
+            <div className="data">
+                <h3>Positive Cases: {info.positive}</h3>
+                <h3>Negative Cases: {info.negative}</h3>
+            </div>
         </div>
         )
 

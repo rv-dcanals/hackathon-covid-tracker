@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import logo from './logo.svg';
 import Title from "./components/Title";
 import './App.css';
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="App">
-        <Title name="Hello, world"/>
+        <Title name="COVID Tracker"/>
         <Stateselect/>
     </div>
   );
