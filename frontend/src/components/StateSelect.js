@@ -13,27 +13,12 @@ export default class StateSelect extends Component {
             valueAbbr: '', 
             selectedState: [],
             location: [], 
-            locationST: ''
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
     componentDidMount() { 
-
-        fetch('http://ip-api.com/json/')
-        .then(response => response.json())
-        .then(data => {
-        //   console.log(data); //Also has city, longitude, and latitude
-        //   console.log(data.region); //This is the 2-letter state name
-            this.setState({
-                location: data,
-                //locationST: data.region
-            })
-        });
-
-        
-
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
         .then(res => res.json())
@@ -42,15 +27,18 @@ export default class StateSelect extends Component {
                 var stateNames = result.map((data) => {
                     return abbrState(data.state, 'name');
                 });
-                var selectedState = result.filter(data => data.state===this.props.location)
+                // console.log("props: did mount, " + this.props.location)
+                 var selectedState = result.filter(data => data.state===this.props.location)
+                // console.log(selectedState)
                 this.setState({ 
-                    result: result,
-                    info: selectedState[0],
+                    info: result,
+                     info: selectedState[0],
                     stateList: stateNames
                 });
             }
         )
     }
+
 
     handleChange(event) {
         this.setState({
@@ -73,7 +61,6 @@ export default class StateSelect extends Component {
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-       
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
