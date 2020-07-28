@@ -4,11 +4,24 @@ import './App.css';
 
 function App() {
 
+  //Testing backend to frontend connection
   useEffect(() => {
-    fetch('http://localhost:3000/meta')
+    fetch('http://localhost:3000/backToFrontConnection')
       .then(response => response.json())
-      .then(data => console.log(data[0]));
+      .then(data => {
+        console.log(data.text);
+      });
   }, [])
+
+  //Gets the location
+  useEffect(() => {
+    fetch('http://ip-api.com/json/')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); //Also has city, longitude, and latitude
+        console.log(data.region); //This is the 2-letter state name
+      });
+  })
 
   return (
     <div className="App">
