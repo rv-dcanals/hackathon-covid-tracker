@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
         <Title name="COVID Tracker"/>
-        <Stateselect/>
+        <Stateselect name="hello"/>
     </div>
   );
 }
