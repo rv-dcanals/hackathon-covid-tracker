@@ -64,12 +64,12 @@ export default class StateSelect extends Component {
             <div className ="header-and-dropdown">
                 <h1 className="display">{abbrState(info.state, 'name')}</h1>
                 <div>
-                    <form onSubmit={this.handleSubmit}>
-                            <select value={this.state.value} onChange={this.handleChange}>
+                    <form className="state-form" onSubmit={this.handleSubmit}>
+                            <select className="state-select" value={this.state.value} onChange={this.handleChange}>
                                     <option value="placeholder">Select a State...</option>
                                     {stateOptions}
                             </select>
-                        <input type="submit" value="Submit"></input>
+                        <input type="submit" value="Select"></input>
                     </form>
                 </div>
             </div>
