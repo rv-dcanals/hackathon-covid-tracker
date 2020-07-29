@@ -10,9 +10,9 @@ export default class compareStates extends Component {
              show: false, 
              compare: false,
              stateList: [],
-             compareData: [], 
-             compareValue: '',
-             compareAbbr: ''
+             statesCompare: [],
+             statesCompareAbbr: [],
+             updatedStateData: []
          };
          this.handleChange = this.handleChange.bind(this); 
          this.handleSubmit = this.handleSubmit.bind(this); 
@@ -48,35 +48,44 @@ export default class compareStates extends Component {
       };
 
       handleChange(event) { 
-        this.setState({
-          compareValue: event.target.value,
-          compareAbbr: abbrState(event.target.value, 'abbr')
-        });
+        this.state.statesCompare.push(event.target.value)
+        this.state.statesCompareAbbr.push(abbrState(event.target.value, 'abbr'))
+        this.setState({});
       }
 
       handleSubmit(event){ 
         event.preventDefault(); 
-        var updatedState = this.props.data.filter(result => result.state===this.state.compareAbbr)[0]
-        console.log(updatedState)
+        var updatedStates = this.state.statesCompareAbbr.map(state => this.props.data.filter(result => result.state===state)[0])
         this.setState({
-            compareData: updatedState,
-            compare: true
+            compare: true,
+            updatedStateData: updatedStates
         })
       }
 
-    
     render() { 
-        const { stateList } = this.state; 
+        const { stateList, statesCompare, updatedStateData } = this.state; 
         const showHideCompareContent = this.state.compare ? "compare-content display-block" : "compare-content display-none";
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         );
+        let compareSelected = statesCompare.map((state) => 
+          <li className="selected-list">{state}</li>
+        ) 
+        
+        let compareDisplay = updatedStateData.map((state)=> 
+        <div className="compare-info selected-data">
+          <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
+          <h4>Positive Cases: {state.positive}</h4>
+          <h4>Negative Cases: {state.negative}</h4>
+        </div>
+        )
+
         return(
           <div>
               <Modal show={this.state.show} handleClose={this.hideModal}>
                   <span onClick={this.hideModal} className="close">&times;</span>
                   <h3>Select the state you want to compare to {this.props.current.state}: </h3>
-                  <div>
+                  <div className="form-and-selected-list">
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange} mutiple="true">
                                     {/* <option value="placeholder">Select a State...</option> */}
@@ -84,20 +93,19 @@ export default class compareStates extends Component {
                             </select>
                         <input className="button" type="submit" value="Select"></input>
                     </form>
+                    <div>
+                      <h4 className="selected-list">Comparing:</h4>
+                      {compareSelected}
+                    </div>
                   </div>
                   <div className={showHideCompareContent}>
-                      <h2 className="compare-header">Comparing {abbrState(this.props.current.state, 'name')} and {abbrState(this.state.compareData.state, 'name')}</h2>
                       <div className="compare-content__info">
                         <div className="compare-info current-data">
                             <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3>
                             <h4>Positive Cases: {this.props.current.positive}</h4>
                             <h4>Negative Cases: {this.props.current.negative}</h4>
                         </div>
-                        <div className="compare-info selected-data">
-                            <h3 className="state-name">{abbrState(this.state.compareData.state, 'name')}</h3>
-                            <h4>Positive Cases: {this.state.compareData.positive}</h4>
-                            <h4>Negative Cases: {this.state.compareData.negative}</h4>
-                        </div>
+                        {compareDisplay}
                       </div>
                   </div>
               </Modal>

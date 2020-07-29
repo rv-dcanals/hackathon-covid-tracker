@@ -40,10 +40,7 @@
   .compare-content__info { 
     display: flex; 
     justify-content: space-around; 
-  }
-  
-  .compare-header {
-    text-align: center;
+    flex-wrap: wrap; 
   }
 
   .state-name { 
@@ -52,4 +49,15 @@
 
   .compare-info{ 
     text-align: center;
+    margin: 12px;
   }
+
+  .form-and-selected-list {
+    display: flex;
+  }
+
+  .selected-list { 
+    margin: 5px
+  }
+
+  
