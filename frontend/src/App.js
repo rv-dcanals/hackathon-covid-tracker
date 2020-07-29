@@ -1,67 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Component } from 'react';
 import firebase from "./Firebase/firebase.js"
 import './App.css';
 import Stateselect from './components/StateSelect';
 import Title from './components/Title';
 
+export default class App extends Component { 
+    constructor() { 
+        super(); 
+        this.state = {
+          region: '',
+          countryCode: ''
 
-const verifyUserExists = () => {
-  console.log("I'm here")
-  firebase.database()
-  .ref("users")
-  .on('value', (snapshot) => {
-    let userObj = snapshot.val()
-    console.log("here", userObj)
-  });
-}
+        }
+      }
 
-const test = () => {
-  console.log("In test")
-  firebase.database()
-  .ref("other_field")
-  .set({
-    // name: "Seba",
-    // last: "Canals",
-    // item1: "0",
-    // item2: "dog",
-    item3: "dragon"
-  });
-}
-
-function App() {
-
-  //Testing backend to frontend connection
-  useEffect(() => {
-    fetch('http://localhost:3000/backToFrontConnection')
+    componentWillMount() { 
+      fetch('http://ip-api.com/json/')
       .then(response => response.json())
       .then(data => {
-        console.log(data.text);
+        // console.log(data); //Also has city, longitude, and latitude
+        // console.log(data.region); //This is the 2-letter state name
+        // if not a US state (ie PR) i want the country code - data.countryCode
+        this.setState({
+          region: data.region,
+          countryCode: data.countryCode
+        })
       });
-  })
+    }
+    componentDidMount() { 
+        fetch('http://localhost:3000/backToFrontConnection')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.text);
+        });
 
-  //Connect to firebase
-  useEffect (() => {
-    console.log("Hello")
-    verifyUserExists()
-    test()
-  }, [])
+        // (() => { console.log("Hello")}, [])
+    }
 
-  //Gets the location
-  useEffect(() => {
-    fetch('http://ip-api.com/json/')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data); //Also has city, longitude, and latitude
-        console.log(data.region); //This is the 2-letter state name
-      });
-  })
-
-  return (
-    <div className="App">
-        <Title name="COVID Tracker"/>
-        <Stateselect/>
-    </div>
-  );
+    render() {
+      const { region, countryCode } = this.state;
+      var userLocation
+      if (countryCode !== "US") { 
+        userLocation = countryCode
+      } else {
+        userLocation = region
+      }
+      console.log(userLocation)
+        return (
+            <div className="App">
+                <Title name="COVID-19 Data"/>
+                {this.state.region && this.state.countryCode &&
+                <Stateselect location={userLocation}/>}
+            </div>
+          );
+    }
 }
-
-export default App;
