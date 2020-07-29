@@ -47,6 +47,15 @@ const verifyCountry = (request) => {
   return (request.body.country != '' && request.body.country != undefined);
 }
 
+const incrementEvent = (req, value) => {
+  if (req.body.country === 'US') { 
+    getState(req).child('events').child(value).set(firebase.database.ServerValue.increment(1));
+  }
+
+  //Increment the value by 1 for the country's event
+  getCountry(req).child('events').child(value).set(firebase.database.ServerValue.increment(1));
+}
+
 const incrementValue = (req, value) => {
   //If country is US, increment that value by 1
   if (req.body.country === 'US') { 
@@ -61,6 +70,13 @@ const incrementValue = (req, value) => {
 const incrementUniversalValue = (value) => {
   firebase.database().ref('allData').child(value).set(firebase.database.ServerValue.increment(1));
 }
+
+app.post("/updateStateSelect", (request, result) => {
+  if (verifyCountry(request)) {
+    incrementEvent(request, 'stateSelect');
+    sendSuccessCode(result, "stateSelect");
+  }
+});
 
 app.post("/updateMapLoads", (request, result) => {
   if (verifyCountry(request)) {

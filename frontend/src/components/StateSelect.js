@@ -70,6 +70,7 @@ export default class StateSelect extends Component {
             info: updatedState[0]
         })
         this.updateValue('updateMapLoads', '');
+        this.updateValue('updateStateSelect', '');
       }
     
     render() {
