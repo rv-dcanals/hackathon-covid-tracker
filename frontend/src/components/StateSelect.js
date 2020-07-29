@@ -15,7 +15,9 @@ export default class StateSelect extends Component {
             valueAbbr: this.props.location, 
             selectedState: [],
             region: this.props.location,
-            regionFull: abbrState(this.props.location, 'name')
+            regionFull: abbrState(this.props.location, 'name'),
+            link: '',
+            infoData: []
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
@@ -39,6 +41,17 @@ export default class StateSelect extends Component {
                 });
             }
         )
+
+        fetch("https://covidtracking.com/api/states/info")
+        .then(res => res.json())
+        .then((result) => {
+            var selectedInfo = result.filter(data => data.state===this.props.location)[0]
+            this.setState({
+                infoData: result,
+                link: selectedInfo.covid19Site
+            })
+            console.log(this.state.link)
+        })
     }
 
     handleChange(event) {
@@ -51,13 +64,16 @@ export default class StateSelect extends Component {
     handleSubmit(event) {
         event.preventDefault(); 
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
+        var updatedLink = this.state.infoData.filter(data => data.state===this.state.valueAbbr)[0]
+        console.log(updatedLink)
         this.setState({
-            info: updatedState[0]
+            info: updatedState[0],
+            link: updatedLink.covid19Site
         })
       }
 
     render() {
-        const { info, stateList, result } = this.state; 
+        const { info, stateList, result, link } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
@@ -75,7 +91,7 @@ export default class StateSelect extends Component {
                     </form>
                 </div>
             </div>
-            <p className="last-update">Last updated: {info.lastUpdateEt}</p>
+            <p className="last-update">Last updated: {info.lastUpdateEt} | <a href={link} target="_blank">More information</a></p>
             <div className="data">
                 <h3>Positive Cases: {info.positive}</h3>
                 <h3>Negative Cases: {info.negative}</h3>

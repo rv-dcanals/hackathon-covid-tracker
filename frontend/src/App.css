@@ -6,6 +6,10 @@
   padding-left: 30px; 
 }
 
+a:visited {
+  color: blue
+}
+
 
 /* .App-logo {
   height: 40vmin;
