@@ -43,7 +43,9 @@ export default class compareStates extends Component {
           compare: false,
           compareData: [], 
           compareValue: '',
-          compareAbbr: ''
+          compareAbbr: '',
+          statesCompare: [],
+          statesCompareAbbr: []
         });
       };
 
@@ -84,7 +86,7 @@ export default class compareStates extends Component {
           <div>
               <Modal show={this.state.show} handleClose={this.hideModal}>
                   <span onClick={this.hideModal} className="close">&times;</span>
-                  <h3>Select the state you want to compare to {this.props.current.state}: </h3>
+                  <h3>Select the state you want to compare to {abbrState(this.props.current.state, 'name')}: </h3>
                   <div className="form-and-selected-list">
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange} mutiple="true">
