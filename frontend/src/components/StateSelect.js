@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/StateSelect.css';
-import { abbrState } from './stateAbbr.js';
+import { abbrState } from '../functions/stateAbbr.js';
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -11,13 +11,14 @@ export default class StateSelect extends Component {
             stateList: [],
             value: '',
             valueAbbr: '', 
-            selectedState: [], 
+            selectedState: [],
+            region: this.props.location
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
-    componentDidMount() { 
+    componentDidMount() {
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
         .then(res => res.json())
@@ -26,7 +27,8 @@ export default class StateSelect extends Component {
                 var stateNames = result.map((data) => {
                     return abbrState(data.state, 'name');
                 });
-                var selectedState = result.filter(data => data.state==="PR")
+                var selectedState = result.filter(data => data.state===this.props.location)
+                
                 this.setState({ 
                     result: result,
                     info: selectedState[0],
@@ -34,7 +36,7 @@ export default class StateSelect extends Component {
                 });
             }
         )
-    }
+        }
 
     handleChange(event) {
         this.setState({
@@ -45,7 +47,6 @@ export default class StateSelect extends Component {
 
     handleSubmit(event) {
         event.preventDefault(); 
-        this.setState({updateThis: "update"})
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
         this.setState({
             info: updatedState[0]
@@ -53,23 +54,21 @@ export default class StateSelect extends Component {
       }
     
     render() {
-        const { info, stateList } = this.state; 
-
+        const { info, stateList, link } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-       
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
                 <h1 className="display">{abbrState(info.state, 'name')}</h1>
                 <div>
-                    <form onSubmit={this.handleSubmit}>
-                            <select value={this.state.value} onChange={this.handleChange}>
+                    <form className="state-form" onSubmit={this.handleSubmit}>
+                            <select className="state-select" value={this.state.value} onChange={this.handleChange}>
                                     <option value="placeholder">Select a State...</option>
                                     {stateOptions}
                             </select>
-                        <input type="submit" value="Submit"></input>
+                        <input type="submit" value="Select"></input>
                     </form>
                 </div>
             </div>
