@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '../styles/StateSelect.css';
+import '../styles/buttons.css';
 import { abbrState } from '../functions/stateAbbr.js';
+import Compare from './compareStates';
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -9,10 +11,11 @@ export default class StateSelect extends Component {
             result: [],
             info: [],
             stateList: [],
-            value: '',
-            valueAbbr: '', 
+            value: abbrState(this.props.location, 'name'),
+            valueAbbr: this.props.location, 
             selectedState: [],
-            region: this.props.location
+            region: this.props.location,
+            regionFull: abbrState(this.props.location, 'name')
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
@@ -36,7 +39,7 @@ export default class StateSelect extends Component {
                 });
             }
         )
-        }
+    }
 
     handleChange(event) {
         this.setState({
@@ -52,9 +55,9 @@ export default class StateSelect extends Component {
             info: updatedState[0]
         })
       }
-    
+
     render() {
-        const { info, stateList, link } = this.state; 
+        const { info, stateList, result } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
@@ -65,17 +68,20 @@ export default class StateSelect extends Component {
                 <div>
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange}>
-                                    <option value="placeholder">Select a State...</option>
+                                    {/* <option value="placeholder">Select a State...</option> */}
                                     {stateOptions}
                             </select>
-                        <input type="submit" value="Select"></input>
+                        <input className="button" type="submit" value="Select"></input>
                     </form>
                 </div>
             </div>
-            <p class="last-update">Last updated: {info.lastUpdateEt}</p>
+            <p className="last-update">Last updated: {info.lastUpdateEt}</p>
             <div className="data">
                 <h3>Positive Cases: {info.positive}</h3>
                 <h3>Negative Cases: {info.negative}</h3>
+            </div>
+            <div>
+            {<Compare data={this.state.result} current={this.state.info}/>}
             </div>
         </div>
         )

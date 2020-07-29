@@ -3,7 +3,7 @@ import firebase from "./Firebase/firebase.js"
 import './App.css';
 import Stateselect from './components/StateSelect';
 import Title from './components/Title';
-import Compare from './components/compareStates';
+
 
 export default class App extends Component { 
     constructor() { 
@@ -46,16 +46,15 @@ export default class App extends Component {
       } else {
         userLocation = region
       }
-      console.log(userLocation)
-        return (
-            <div className="App">
-                <Title name="COVID-19 Data"/>
-                <div class="body">
-                {this.state.region && this.state.countryCode &&
-                <Stateselect location={userLocation}/>}
-                <Compare/>
-                </div>
-            </div>
-          );
+      return (
+          <div className="App">
+              <Title name="COVID-19 Data"/>
+              <div className="body">
+              {this.state.region && this.state.countryCode &&
+              <Stateselect location={userLocation}/>}
+              {/* <Compare/> */}
+              </div>
+          </div>
+        );
     }
 }
