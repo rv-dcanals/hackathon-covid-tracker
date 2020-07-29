@@ -18,6 +18,13 @@ export default class StateSelect extends Component {
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
+    /*
+     * Sends a post request using the state values to the backend
+     * where the values are updated accordingly
+     * 
+     * @param endpoint = the endpoint of the post request 
+     * @param value = the value of the state origin (if needed, leave as an empty string otherwise)
+     */
     updateValue = (endpoint, value) => {
         fetch('http://localhost:3000/' + endpoint, {
             method: 'POST',
@@ -28,8 +35,7 @@ export default class StateSelect extends Component {
             body: JSON.stringify(
             {
                 country: 'US', 
-                region: this.state.valueAbbr,
-                value: value
+                region: value === '' ? this.state.valueAbbr : value,
             }
             )
         })
@@ -70,7 +76,7 @@ export default class StateSelect extends Component {
             info: updatedState[0]
         })
         this.updateValue('updateMapLoads', '');
-        this.updateValue('updateStateSelect', '');
+        this.updateValue('updateStateSelect', this.state.region);
       }
     
     render() {

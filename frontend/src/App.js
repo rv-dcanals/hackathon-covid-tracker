@@ -13,6 +13,13 @@ export default class App extends Component {
       }
     }
 
+    /*
+     * Sends a post request using the state values to the backend
+     * where the values are updated accordingly
+     * 
+     * @param endpoint = the endpoint of the post request 
+     * @param value = an optional value to send alongside the request. Can simply be an empty string
+     */
     updateValue = (endpoint, value) => {
       fetch('http://localhost:3000/' + endpoint, {
         method: 'POST',
