@@ -18,6 +18,24 @@ export default class StateSelect extends Component {
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
+    updateValue = (endpoint, value) => {
+        fetch('http://localhost:3000/' + endpoint, {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+            {
+                country: 'US', 
+                region: this.state.valueAbbr,
+                value: value
+            }
+            )
+        })
+        .then(response => response.json());
+    };
+
     componentDidMount() {
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
@@ -51,6 +69,8 @@ export default class StateSelect extends Component {
         this.setState({
             info: updatedState[0]
         })
+        console.log(this.props, this.state);
+        this.updateValue('updateMapLoads', '');
       }
     
     render() {

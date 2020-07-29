@@ -6,13 +6,30 @@ import Title from './components/Title';
 
 export default class App extends Component { 
     constructor() { 
-        super(); 
-        this.state = {
-          region: '',
-          countryCode: ''
-
-        }
+      super(); 
+      this.state = {
+        region: '',
+        countryCode: ''
       }
+    }
+
+    updateValue = (endpoint, value) => {
+      fetch('http://localhost:3000/' + endpoint, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+          {
+            country: this.state.countryCode, 
+            region: this.state.region,
+            value: value
+          }
+        )
+      })
+      .then(response => response.json());
+    };
 
     componentWillMount() { 
       fetch('http://ip-api.com/json/')
@@ -24,17 +41,11 @@ export default class App extends Component {
         this.setState({
           region: data.region,
           countryCode: data.countryCode
-        })
+        });
+        this.updateValue('updateVisits', '');
       });
     }
     componentDidMount() { 
-        fetch('http://localhost:3000/backToFrontConnection')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data.text);
-        });
-
-        // (() => { console.log("Hello")}, [])
     }
 
     render() {
