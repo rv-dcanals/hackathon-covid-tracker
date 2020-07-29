@@ -69,7 +69,6 @@ export default class StateSelect extends Component {
         this.setState({
             info: updatedState[0]
         })
-        console.log(this.props, this.state);
         this.updateValue('updateMapLoads', '');
       }
     
