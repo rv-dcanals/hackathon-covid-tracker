@@ -42,8 +42,6 @@ export default class compareStates extends Component {
           show: false, 
           compare: false,
           compareData: [], 
-          compareValue: '',
-          compareAbbr: '',
           statesCompare: [],
           statesCompareAbbr: []
         });
