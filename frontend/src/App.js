@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from "./Firebase/firebase.js"
 import './App.css';
 import Stateselect from './components/StateSelect';
 import Title from './components/Title';
+import CQ from './components/CQ'
+import Modal from 'react-modal';
 
 
 const verifyUserExists = () => {
@@ -30,6 +32,8 @@ const test = () => {
 
 function App() {
 
+  const [modalIsOpen, setModalOpen] = useState(true);
+
   //Testing backend to frontend connection
   useEffect(() => {
     fetch('http://localhost:3000/backToFrontConnection')
@@ -56,10 +60,18 @@ function App() {
       });
   })
 
+
   return (
     <div className="App">
         <Title name="COVID Tracker"/>
-        <Stateselect/>
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalOpen(false)}
+            contentLabel="COVID-19 Probability Quiz"
+            ariaHideApp={false}
+          >
+          <CQ closeModal={() => setModalOpen(false)}/>
+        </Modal>
     </div>
   );
 }
