@@ -59,7 +59,7 @@ export default class StateSelect extends Component {
             <option key={state} value={state}>{state}</option> 
         ); 
         return(
-        <div className="stateselection">
+        <div className="state-selection">
             <div className ="header-and-dropdown">
                 <h1 className="display">{abbrState(info.state, 'name')}</h1>
                 <div>
@@ -72,7 +72,7 @@ export default class StateSelect extends Component {
                     </form>
                 </div>
             </div>
-            <p>Last updated: {info.lastUpdateEt}</p>
+            <p class="last-update">Last updated: {info.lastUpdateEt}</p>
             <div className="data">
                 <h3>Positive Cases: {info.positive}</h3>
                 <h3>Negative Cases: {info.negative}</h3>
