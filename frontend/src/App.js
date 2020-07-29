@@ -8,13 +8,13 @@ export default class App extends Component {
     constructor() { 
         super(); 
         this.state = {
-          region: ''
+          region: '',
+          countryCode: ''
 
         }
-    }
+      }
 
-    
-    componentWillMount() {
+    componentWillMount() { 
       fetch('http://ip-api.com/json/')
       .then(response => response.json())
       .then(data => {
@@ -22,11 +22,11 @@ export default class App extends Component {
         // console.log(data.region); //This is the 2-letter state name
         // if not a US state (ie PR) i want the country code - data.countryCode
         this.setState({
-          region: data.region
+          region: data.region,
+          countryCode: data.CountryCode
         })
       });
     }
-
     componentDidMount() { 
         fetch('http://localhost:3000/backToFrontConnection')
         .then(response => response.json())
@@ -38,11 +38,12 @@ export default class App extends Component {
     }
 
     render() {
-      const { region } = this.state;
+      const { region, countryCode } = this.state;
         return (
             <div className="App">
                 <Title name="COVID-19 Data"/>
-                <Stateselect name={region}/>
+                {this.state.region && 
+                <Stateselect location={region}/>}
             </div>
           );
     }

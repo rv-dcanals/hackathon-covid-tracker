@@ -12,13 +12,13 @@ export default class StateSelect extends Component {
             value: '',
             valueAbbr: '', 
             selectedState: [],
-            link: []
+            region: this.props.location
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch("https://covidtracking.com/api/states")
         // will ultimately become fetch("https://covidtracking.com/api/states?state=" + the state from the location data)
         .then(res => res.json())
@@ -28,6 +28,7 @@ export default class StateSelect extends Component {
                     return abbrState(data.state, 'name');
                 });
                 var selectedState = result.filter(data => data.state===this.props.location)
+                
                 this.setState({ 
                     result: result,
                     info: selectedState[0],
@@ -46,7 +47,6 @@ export default class StateSelect extends Component {
 
     handleSubmit(event) {
         event.preventDefault(); 
-        this.setState({updateThis: "update"})
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
         this.setState({
             info: updatedState[0]
@@ -55,11 +55,9 @@ export default class StateSelect extends Component {
     
     render() {
         const { info, stateList, link } = this.state; 
-
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-        console.log("Link: "+link)
         return(
         <div className="stateselection">
             <div className ="header-and-dropdown">
