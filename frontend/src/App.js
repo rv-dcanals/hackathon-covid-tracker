@@ -23,7 +23,7 @@ export default class App extends Component {
         // if not a US state (ie PR) i want the country code - data.countryCode
         this.setState({
           region: data.region,
-          countryCode: data.CountryCode
+          countryCode: data.countryCode
         })
       });
     }
@@ -39,11 +39,18 @@ export default class App extends Component {
 
     render() {
       const { region, countryCode } = this.state;
+      var userLocation
+      if (countryCode !== "US") { 
+        userLocation = countryCode
+      } else {
+        userLocation = region
+      }
+      console.log(userLocation)
         return (
             <div className="App">
                 <Title name="COVID-19 Data"/>
-                {this.state.region && 
-                <Stateselect location={region}/>}
+                {this.state.region && this.state.countryCode &&
+                <Stateselect location={userLocation}/>}
             </div>
           );
     }
