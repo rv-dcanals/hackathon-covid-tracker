@@ -84,7 +84,7 @@ export default class StateSelect extends Component {
         .then(data => {
            for (var i = 0; i < 7; i++ ) {
                var selected = data[i]
-               this.state.positiveHistory.push(selected.positive)
+               this.state.positiveHistory.push(selected.positiveIncrease)
            }
            this.setState({
                 historicData: data
@@ -120,7 +120,7 @@ export default class StateSelect extends Component {
             this.setState({positiveHistory:[]})
             for (var i = 0; i < 7; i++ ) {
                 var selected = data[i]
-                this.state.positiveHistory.push(selected.positive)
+                this.state.positiveHistory.push(selected.positiveIncrease)
             }
             console.log(this.state.positiveHistory)
            this.setState({
@@ -156,7 +156,7 @@ export default class StateSelect extends Component {
                 <h3>Negative Cases: {info.negative}</h3>
             </div>
             <div>
-            {<Compare data={this.state.result} current={this.state.info} historic={this.state.historicData}/>}
+            {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
             {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
             </div>
         </div>

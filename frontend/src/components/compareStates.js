@@ -76,8 +76,7 @@ export default class compareStates extends Component {
         let compareDisplay = updatedStateData.map((state)=> 
         <div className="compare-info selected-data">
           <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
-          <h4>Positive Cases: {state.positive}</h4>
-          <h4>Negative Cases: {state.negative}</h4>
+          {<Graphs data={this.props.data} current={this.props.current} historic={this.props.historic}/>}
         </div>
         )
 
@@ -102,8 +101,6 @@ export default class compareStates extends Component {
                       <div className="compare-content__info">
                         <div className="compare-info current-data">
                             <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3>
-                            <h4>Positive Cases: {this.props.current.positive}</h4>
-                            <h4>Negative Cases: {this.props.current.negative}</h4>
                             {<Graphs data={this.props.data} current={this.props.current} historic={this.props.historic}/>}
                         </div>
                         {compareDisplay}

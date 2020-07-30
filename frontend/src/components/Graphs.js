@@ -14,6 +14,7 @@ export default class Graphs extends Component {
     }
 
     render() {
+        console.log(this.props.current.hospitalizedCurrently)
         const options = {
             theme: "light2",
             animationEnabled: true,
