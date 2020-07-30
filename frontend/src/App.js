@@ -1,8 +1,8 @@
 import React, { useEffect, Component } from 'react';
 // import firebase from "./Firebase/firebase"
 import './App.css';
-import StateSelect from './Components/StateSelect';
-import Title from './Components/Title';
+import StateSelect from './components/StateSelect';
+import Title from './components/Title';
 
 
 export default class App extends Component { 
