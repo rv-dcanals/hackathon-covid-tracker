@@ -19,7 +19,10 @@ export default class compareStates extends Component {
              historicData: [],
              historicDataArray: [],
              arrayindex: 0, 
-             test: ''
+             test: '',
+             graphs: {
+               statename: '', 
+                array: [], }
          };
          this.handleChange = this.handleChange.bind(this); 
          this.handleSubmit = this.handleSubmit.bind(this); 
@@ -111,6 +114,7 @@ export default class compareStates extends Component {
         fetch("https://covidtracking.com/api/v1/states/" + stateAbbr.toLowerCase() + "/daily.json")
         .then(res => res.json())
         .then(data => {
+
             this.setState({positiveHistory:[]})
             for (var i = 0; i < 7; i++ ) {
                 var selected = data[i]
@@ -123,8 +127,13 @@ export default class compareStates extends Component {
            this.state.historicDataArray.push(this.state.arrayindex, this.state.positiveHistory);
            console.log(this.state.historicDataArray)
            this.setState({
-             arrayindex: this.state.arrayindex++
+             graphs: {
+               statename: stateAbbr,
+               array: this.state.positiveHistory
+             }
            })
+           console.log(this.state.graphs)
+           
            
         })
       }
@@ -149,7 +158,7 @@ export default class compareStates extends Component {
 
         let filteredArray = this.state.historicDataArray.filter(state => state !== 0)
         let comparedGraphs = filteredArray.map((state) =>
-          <GraphsCompare historyArray={state}/>
+          <GraphsCompare historyArray={state} object={this.state.graphs}/>
         )
 
         return(

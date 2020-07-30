@@ -29,3 +29,8 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.two-buttons {
+  display: flex; 
+  justify-content: center;
+}

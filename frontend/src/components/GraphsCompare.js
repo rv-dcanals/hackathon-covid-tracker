@@ -20,7 +20,7 @@ export default class Graphs extends Component {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: "Positive COVID Results in " + "selected state"
+                text: "Positive COVID Results in " + this.props.object.statename
             },
             axisY: {
                 title: "Positive Results",
