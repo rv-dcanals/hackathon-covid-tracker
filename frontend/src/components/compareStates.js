@@ -12,11 +12,35 @@ export default class compareStates extends Component {
              stateList: [],
              statesCompare: [],
              statesCompareAbbr: [],
-             updatedStateData: []
+             updatedStateData: [],
          };
          this.handleChange = this.handleChange.bind(this); 
          this.handleSubmit = this.handleSubmit.bind(this); 
     }
+
+    /*
+     * Sends a post request using the state values to the backend
+     * where the values are updated accordingly
+     * 
+     * @param endpoint = the endpoint of the post request 
+     * @param value = the abbreviation of the state to add the value to
+     */
+    updateValue = (endpoint, value) => {
+      fetch('http://localhost:3000/' + endpoint, {
+          method: 'POST',
+          headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(
+          {
+              country: 'US', 
+              region: value,
+          }
+          )
+      })
+      .then(response => response.json());
+    };
 
     componentDidMount() {
         fetch("https://covidtracking.com/api/states")
@@ -35,6 +59,8 @@ export default class compareStates extends Component {
 
     showModal = () => {
         this.setState({ show: true });
+        //Update backend every time the button is clicked for the state of origin
+        this.updateValue('compareStateClicked', this.props.origin);
       };
     
       hideModal = () => {
@@ -51,6 +77,8 @@ export default class compareStates extends Component {
         this.state.statesCompare.push(event.target.value)
         this.state.statesCompareAbbr.push(abbrState(event.target.value, 'abbr'))
         this.setState({});
+        //Update backend on addition of state to comparison
+        this.updateValue('stateComparisonAdded', abbrState(event.target.value, 'abbr'));
       }
 
       handleSubmit(event){ 
@@ -59,7 +87,11 @@ export default class compareStates extends Component {
         this.setState({
             compare: true,
             updatedStateData: updatedStates
-        })
+        });
+        //Update backend every time the comparisons are viewed
+        this.updateValue('comparisonViewed', this.props.origin);
+        //Update the backend that the current state is being compared to another state
+        this.updateValue('stateComparisonAdded', this.props.current.state);
       }
 
     render() { 

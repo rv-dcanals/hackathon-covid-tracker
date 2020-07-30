@@ -123,7 +123,7 @@ export default class StateSelect extends Component {
                 <h3>Negative Cases: {info.negative}</h3>
             </div>
             <div>
-            {<Compare data={this.state.result} current={this.state.info}/>}
+            {<Compare data={this.state.result} current={this.state.info} origin={this.state.region}/>}
             </div>
         </div>
         )
