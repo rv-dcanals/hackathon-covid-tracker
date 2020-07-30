@@ -1,4 +1,4 @@
-import React, { useEffect, Component } from 'react';
+import React, { Component } from 'react';
 // import firebase from "./Firebase/firebase"
 import './App.css';
 import StateSelect from './components/StateSelect';
