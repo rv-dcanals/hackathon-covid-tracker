@@ -11,18 +11,15 @@ export default class Graphs extends Component {
         super(props);
         this.state = {
         };
-        console.log(this.props.historic);
-
     }
 
     render() {
-        console.log(this.props.historic[0])
         const options = {
             theme: "light2",
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: "Positive COVID Results in NC"
+                text: "Positive COVID Results in " + this.props.current.state
             },
             axisY: {
                 title: "Positive Results",
@@ -32,15 +29,15 @@ export default class Graphs extends Component {
                 {
                     type: "area",
                
-                    yValueFormatString: "#,##0.## Million",
+                    yValueFormatString: "#,##0.##",
                     dataPoints: [
-                        { x: new Date(2020, 6, 23), y: 7.6 },
-                        { x: new Date(2020, 6, 24), y: 7.3 },
-                        { x: new Date(2020, 6, 25), y: 6.4 },
-                        { x: new Date(2020, 6, 26), y: 5.3 },
-                        { x: new Date(2020, 6, 27), y: 4.5 },
-                        { x: new Date(2020, 6, 28), y: 3.8 },
-                        { x: new Date(2020, 6, 29), y: 3.2 }
+                        { x: new Date(2020, 6, 23), y: this.props.historic[6] },
+                        { x: new Date(2020, 6, 24), y: this.props.historic[5] },
+                        { x: new Date(2020, 6, 25), y: this.props.historic[4] },
+                        { x: new Date(2020, 6, 26), y: this.props.historic[3] },
+                        { x: new Date(2020, 6, 27), y: this.props.historic[2] },
+                        { x: new Date(2020, 6, 28), y: this.props.historic[1]},
+                        { x: new Date(2020, 6, 29), y: this.props.historic[0]}
                     ]
                 }
             ]

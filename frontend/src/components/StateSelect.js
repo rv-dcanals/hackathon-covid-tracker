@@ -22,7 +22,6 @@ export default class StateSelect extends Component {
             historicData: [],
             positiveHistory: []
         };
-        console.log(this.props.location)
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
@@ -83,8 +82,6 @@ export default class StateSelect extends Component {
         fetch("https://covidtracking.com/api/v1/states/" + this.props.location.toLowerCase() + "/daily.json")
         .then(res => res.json())
         .then(data => {
-           var selected = data[0]
-           console.log(selected.positive)
            for (var i = 0; i < 7; i++ ) {
                var selected = data[i]
                this.state.positiveHistory.push(selected.positive)
@@ -96,14 +93,6 @@ export default class StateSelect extends Component {
      }
 
     handleChange(event) {
-        fetch("https://covidtracking.com/api/v1/states/" + abbrState(event.target.value, 'abbr').toLowerCase() + "/daily.json")
-        .then(res => res.json())
-        .then(data => {
-           console.log(data)
-           this.setState({
-                historicData: data
-           })
-        })
         this.setState({
             value: event.target.value,
             valueAbbr: abbrState(event.target.value, 'abbr')
@@ -124,6 +113,20 @@ export default class StateSelect extends Component {
         })
         this.updateValue('updateMapLoads', '');
         this.updateValue('updateStateSelect', this.state.region);
+
+        fetch("https://covidtracking.com/api/v1/states/" + this.state.valueAbbr.toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+            this.setState({positiveHistory:[]})
+            for (var i = 0; i < 7; i++ ) {
+                var selected = data[i]
+                this.state.positiveHistory.push(selected.positive)
+            }
+            console.log(this.state.positiveHistory)
+           this.setState({
+                historicData: data
+           })
+        })
       }
 
     render() {
@@ -154,7 +157,7 @@ export default class StateSelect extends Component {
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info} historic={this.state.historicData}/>}
-            {this.state.positiveHistory && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
+            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
             </div>
         </div>
         )
