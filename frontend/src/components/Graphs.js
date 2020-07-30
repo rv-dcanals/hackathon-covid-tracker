@@ -5,6 +5,7 @@ var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
+
 export default class Graphs extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +17,7 @@ export default class Graphs extends Component {
     }
 
     render() {
-        console.log(this.props.historic)
+        console.log(this.props.historic[0])
         const options = {
             theme: "light2",
             animationEnabled: true,
@@ -47,7 +48,7 @@ export default class Graphs extends Component {
         }
         return (
             <div>
-                <CanvasJSChart options={options}
+                <CanvasJSChart options={options} 
                 /* onRef={ref => this.chart = ref} */
                 />
                 {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}

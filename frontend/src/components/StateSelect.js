@@ -19,7 +19,8 @@ export default class StateSelect extends Component {
             regionFull: abbrState(this.props.location, 'name'),
             link: '',
             infoData: [],
-            historicData: []
+            historicData: [],
+            positiveHistory: []
         };
         console.log(this.props.location)
         this.handleChange = this.handleChange.bind(this); 
@@ -82,7 +83,12 @@ export default class StateSelect extends Component {
         fetch("https://covidtracking.com/api/v1/states/" + this.props.location.toLowerCase() + "/daily.json")
         .then(res => res.json())
         .then(data => {
-           console.log(data)
+           var selected = data[0]
+           console.log(selected.positive)
+           for (var i = 0; i < 7; i++ ) {
+               var selected = data[i]
+               this.state.positiveHistory.push(selected.positive)
+           }
            this.setState({
                 historicData: data
            })
@@ -121,11 +127,12 @@ export default class StateSelect extends Component {
       }
 
     render() {
-        const { info, stateList, link } = this.state; 
+        const { info, stateList, link, positiveHistory } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-        let currentInfo = this.state.info
+        // var smallhistory = historicData.filter(data => data.date === "20200729")
+        // console.log(smallhistory)
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">
@@ -146,8 +153,8 @@ export default class StateSelect extends Component {
                 <h3>Negative Cases: {info.negative}</h3>
             </div>
             <div>
-            {<Compare data={this.state.result} current={this.state.info}/>}
-            {<Graphs data={this.state.result} current={this.state.info} historic={this.state.historicData}/>}
+            {<Compare data={this.state.result} current={this.state.info} historic={this.state.historicData}/>}
+            {this.state.positiveHistory && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
             </div>
         </div>
         )

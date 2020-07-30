@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/buttons.css';
 import '../styles/stateCompare.css';
 import { abbrState } from '../functions/stateAbbr.js';
+import Graphs from './Graphs';
 
 export default class compareStates extends Component { 
     constructor(props) {
@@ -103,6 +104,7 @@ export default class compareStates extends Component {
                             <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3>
                             <h4>Positive Cases: {this.props.current.positive}</h4>
                             <h4>Negative Cases: {this.props.current.negative}</h4>
+                            {<Graphs data={this.props.data} current={this.props.current} historic={this.props.historic}/>}
                         </div>
                         {compareDisplay}
                       </div>
