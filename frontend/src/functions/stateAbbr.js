@@ -55,7 +55,7 @@ export function abbrState(input, to) {
         ['South Dakota', 'SD'],
         ['Tennessee', 'TN'],
         ['Texas', 'TX'],
-        ['US Virgin Islands', 'VI'],
+        ["US Virgin Islands", 'VI'],
         ['Utah', 'UT'],
         ['Vermont', 'VT'],
         ['Virginia', 'VA'],
@@ -71,6 +71,7 @@ export function abbrState(input, to) {
         input = input.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
         for (i = 0; i < states.length; i++) {
             if (states[i][0] === input) {
+                console.log(states[i][1])
                 return (states[i][1]);
             }
         }

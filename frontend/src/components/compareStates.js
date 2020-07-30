@@ -88,10 +88,9 @@ export default class compareStates extends Component {
                   <div className="form-and-selected-list">
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange} mutiple="true">
-                                    {/* <option value="placeholder">Select a State...</option> */}
                                     {stateOptions}
                             </select>
-                        <input className="button" type="submit" value="Select"></input>
+                        <input className="button" type="submit" value="Compare"></input>
                     </form>
                     <div>
                       <h4 className="selected-list">Comparing:</h4>

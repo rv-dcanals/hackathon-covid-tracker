@@ -39,6 +39,7 @@ export default class StateSelect extends Component {
                     info: selectedState[0],
                     stateList: stateNames
                 });
+                console.log(result)
             }
         )
 
@@ -50,7 +51,6 @@ export default class StateSelect extends Component {
                 infoData: result,
                 link: selectedInfo.covid19Site
             })
-            console.log(this.state.link)
         })
     }
 
@@ -59,13 +59,16 @@ export default class StateSelect extends Component {
             value: event.target.value,
             valueAbbr: abbrState(event.target.value, 'abbr')
         }); 
+        if (event.target.value ==="US Virgin Islands") { 
+            this.setState({valueAbbr: 'VI'})
+        }
     }
 
     handleSubmit(event) {
         event.preventDefault(); 
+        console.log(this.state.valueAbbr)
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
         var updatedLink = this.state.infoData.filter(data => data.state===this.state.valueAbbr)[0]
-        console.log(updatedLink)
         this.setState({
             info: updatedState[0],
             link: updatedLink.covid19Site
@@ -73,7 +76,7 @@ export default class StateSelect extends Component {
       }
 
     render() {
-        const { info, stateList, result, link } = this.state; 
+        const { info, stateList, link } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
@@ -91,7 +94,7 @@ export default class StateSelect extends Component {
                     </form>
                 </div>
             </div>
-            <p className="last-update">Last updated: {info.lastUpdateEt} | <a href={link} target="_blank">More information</a></p>
+            <p className="last-update">Last updated: {info.lastUpdateEt} <span style={{fontStyle:'initial'}}>|</span> <a href={link} target="_blank">More information</a></p>
             <div className="data">
                 <h3>Positive Cases: {info.positive}</h3>
                 <h3>Negative Cases: {info.negative}</h3>
