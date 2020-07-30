@@ -24,3 +24,8 @@
   font-size: 12px;
   font-style: italic;
 }
+
+.data { 
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -39,9 +39,9 @@
   }
 
   .compare-content__info { 
-    display: flex; 
+    /* display: flex; 
     justify-content: space-around; 
-    flex-wrap: wrap; 
+    flex-wrap: wrap;  */
   }
 
   .state-name { 
@@ -49,8 +49,8 @@
   }
 
   .compare-info{ 
-    text-align: center;
-    margin: 12px;
+    /* text-align: center; */
+    /* margin: 12px; */
   }
 
   .form-and-selected-list {

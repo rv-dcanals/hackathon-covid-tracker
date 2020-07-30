@@ -122,7 +122,6 @@ export default class StateSelect extends Component {
                 var selected = data[i]
                 this.state.positiveHistory.push(selected.positiveIncrease)
             }
-            console.log(this.state.positiveHistory)
            this.setState({
                 historicData: data
            })
@@ -134,8 +133,6 @@ export default class StateSelect extends Component {
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-        // var smallhistory = historicData.filter(data => data.date === "20200729")
-        // console.log(smallhistory)
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">
@@ -152,8 +149,9 @@ export default class StateSelect extends Component {
             </div>
             <p className="last-update">Last updated: {info.lastUpdateEt} <span style={{fontStyle:'initial'}}>|</span> <a href={link} target="_blank">More information</a></p>
             <div className="data">
-                <h3>Positive Cases: {info.positive}</h3>
-                <h3>Negative Cases: {info.negative}</h3>
+                {info.positive && <h3>Total Positive Cases: {info.positive.toLocaleString()}</h3>}
+                <br></br>
+                {info.negative && <h3>Total Negative Cases: {info.negative.toLocaleString()}</h3>}
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
