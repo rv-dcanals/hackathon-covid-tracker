@@ -18,8 +18,10 @@ export default class StateSelect extends Component {
             region: this.props.location,
             regionFull: abbrState(this.props.location, 'name'),
             link: '',
-            infoData: []
+            infoData: [],
+            historicData: []
         };
+        console.log(this.props.location)
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
@@ -64,7 +66,6 @@ export default class StateSelect extends Component {
                     info: selectedState[0],
                     stateList: stateNames
                 });
-                console.log(result)
             }
         )
 
@@ -77,7 +78,16 @@ export default class StateSelect extends Component {
                 link: selectedInfo.covid19Site
             })
         })
-    }
+
+        fetch("https://covidtracking.com/api/v1/states/" + this.props.location.toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+           console.log(data)
+           this.setState({
+                historicData: data
+           })
+        })
+     }
 
     handleChange(event) {
         this.setState({
@@ -91,7 +101,6 @@ export default class StateSelect extends Component {
 
     handleSubmit(event) {
         event.preventDefault(); 
-        console.log(this.state.valueAbbr)
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
         var updatedLink = this.state.infoData.filter(data => data.state===this.state.valueAbbr)[0]
         this.setState({
@@ -107,6 +116,7 @@ export default class StateSelect extends Component {
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
+        let currentInfo = this.state.info
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">
@@ -128,7 +138,7 @@ export default class StateSelect extends Component {
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info}/>}
-            {<Graphs data={this.state.result} current={this.state.info}/>}
+            {<Graphs data={this.state.result} current={this.state.info} historic={this.state.historicData}/>}
             </div>
         </div>
         )

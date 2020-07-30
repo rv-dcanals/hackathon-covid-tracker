@@ -12,7 +12,7 @@ export default class compareStates extends Component {
              stateList: [],
              statesCompare: [],
              statesCompareAbbr: [],
-             updatedStateData: []
+             updatedStateData: [],
          };
          this.handleChange = this.handleChange.bind(this); 
          this.handleSubmit = this.handleSubmit.bind(this); 

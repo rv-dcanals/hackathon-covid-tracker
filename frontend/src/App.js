@@ -68,7 +68,7 @@ export default class App extends Component {
           <div className="App">
               <Title name="COVID-19 Data"/>
               <div className="body">
-              {this.state.region && this.state.countryCode &&
+              {(this.state.region || this.state.countryCode) &&
               <Stateselect location={userLocation}/>}
               </div>
           </div>
