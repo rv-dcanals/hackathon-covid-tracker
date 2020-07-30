@@ -3,6 +3,7 @@ import '../styles/StateSelect.css';
 import '../styles/buttons.css';
 import { abbrState } from '../functions/stateAbbr.js';
 import Compare from './compareStates';
+import Graphs from './Graphs';
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -124,6 +125,7 @@ export default class StateSelect extends Component {
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info}/>}
+            {<Graphs data={this.state.result} current={this.state.info}/>}
             </div>
         </div>
         )
