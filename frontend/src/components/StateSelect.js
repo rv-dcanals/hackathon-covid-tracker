@@ -4,6 +4,7 @@ import '../styles/buttons.css';
 import { abbrState } from '../functions/stateAbbr.js';
 import Quiz from "./Quiz"
 import Compare from './compareStates';
+import Graphs from './Graphs';
 import Modal from "react-modal"
 
 
@@ -21,6 +22,8 @@ export default class StateSelect extends Component {
             regionFull: abbrState(this.props.location, 'name'),
             link: '',
             infoData: [],
+            historicData: [],
+            positiveHistory: [],
             modalIsOpen: false
         };
         this.handleChange = this.handleChange.bind(this); 
@@ -79,13 +82,29 @@ export default class StateSelect extends Component {
                 link: selectedInfo.covid19Site
             })
         })
-    }
+
+        fetch("https://covidtracking.com/api/v1/states/" + this.props.location.toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+           for (var i = 0; i < 7; i++ ) {
+               var selected = data[i]
+               this.state.positiveHistory.push(selected.positiveIncrease)
+           }
+           this.setState({
+                historicData: data
+           })
+        })
+     }
 
     handleChange(event) {
         this.setState({
             value: event.target.value,
             valueAbbr: abbrState(event.target.value, 'abbr')
         }); 
+        if (event.target.value ==="US Virgin Islands") { 
+            this.setState({valueAbbr: 'VI'})
+        }
+
     }
     handleSubmit(event) {
         event.preventDefault(); 
@@ -97,6 +116,19 @@ export default class StateSelect extends Component {
         })
         this.updateValue('updateMapLoads', '');
         this.updateValue('updateStateSelect', this.state.region);
+
+        fetch("https://covidtracking.com/api/v1/states/" + this.state.valueAbbr.toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+            this.setState({positiveHistory:[]})
+            for (var i = 0; i < 7; i++ ) {
+                var selected = data[i]
+                this.state.positiveHistory.push(selected.positiveIncrease)
+            }
+           this.setState({
+                historicData: data
+           })
+        })
       }
 
     openQuiz() {
@@ -111,7 +143,7 @@ export default class StateSelect extends Component {
     }
 
     render() {
-        const { info, stateList, result, link } = this.state; 
+        const { info, stateList, link, positiveHistory } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
@@ -129,11 +161,15 @@ export default class StateSelect extends Component {
                     </form>
                 </div>
             </div>
-            <p className="last-update">Last updated: {info.lastUpdateEt} | <a href={link} target="_blank">More information</a></p>
+            <p className="last-update">Last updated: {info.lastUpdateEt} <span style={{fontStyle:'initial'}}>|</span> <a href={link} target="_blank">More information</a></p>
             <div className="data">
-                <h3>Positive Cases: {info.positive}</h3>
-                <h3>Negative Cases: {info.negative}</h3>
-            </div>                
+                {info.positive && <h3>Total Positive Cases: {info.positive.toLocaleString()}</h3>}
+                <br></br>
+                {info.negative && <h3>Total Negative Cases: {info.negative.toLocaleString()}</h3>}
+            </div>
+            <div>
+            {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
+            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}               
             <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
             <div>
                 <Modal

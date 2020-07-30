@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../styles/buttons.css';
 import '../styles/stateCompare.css';
 import { abbrState } from '../functions/stateAbbr.js';
+import Graphs from './Graphs';
+import GraphsCompare from './GraphsCompare'
 
 export default class compareStates extends Component { 
     constructor(props) {
@@ -13,6 +15,11 @@ export default class compareStates extends Component {
              statesCompare: [],
              statesCompareAbbr: [],
              updatedStateData: [],
+             stateAbbr: '',
+             historicData: [],
+             historicDataArray: [],
+             arrayindex: 0, 
+             test: ''
          };
          this.handleChange = this.handleChange.bind(this); 
          this.handleSubmit = this.handleSubmit.bind(this); 
@@ -76,6 +83,10 @@ export default class compareStates extends Component {
       handleChange(event) { 
         this.state.statesCompare.push(event.target.value)
         this.state.statesCompareAbbr.push(abbrState(event.target.value, 'abbr'))
+        this.setState({
+          stateAbbr: abbrState(event.target.value, 'abbr')
+        });
+        this.getHistoricData(abbrState(event.target.value, 'abbr'))
         this.setState({});
         //Update backend on addition of state to comparison
         this.updateValue('stateComparisonAdded', abbrState(event.target.value, 'abbr'));
@@ -84,14 +95,38 @@ export default class compareStates extends Component {
       handleSubmit(event){ 
         event.preventDefault(); 
         var updatedStates = this.state.statesCompareAbbr.map(state => this.props.data.filter(result => result.state===state)[0])
+        // console.log(this.state.stateAbbr)
+        let blah = <h1>Hello</h1>
         this.setState({
             compare: true,
-            updatedStateData: updatedStates
-        });
+            updatedStateData: updatedStates,
+        })
         //Update backend every time the comparisons are viewed
         this.updateValue('comparisonViewed', this.props.origin);
         //Update the backend that the current state is being compared to another state
         this.updateValue('stateComparisonAdded', this.props.current.state);
+      }
+
+      getHistoricData(stateAbbr) { 
+        fetch("https://covidtracking.com/api/v1/states/" + stateAbbr.toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+            this.setState({positiveHistory:[]})
+            for (var i = 0; i < 7; i++ ) {
+                var selected = data[i]
+                this.state.positiveHistory.push(selected.positiveIncrease)
+            }
+           this.setState({
+                historicData: data
+           })
+           console.log(this.state.positiveHistory)
+           this.state.historicDataArray.push(this.state.arrayindex, this.state.positiveHistory);
+           console.log(this.state.historicDataArray)
+           this.setState({
+             arrayindex: this.state.arrayindex++
+           })
+           
+        })
       }
 
     render() { 
@@ -103,27 +138,45 @@ export default class compareStates extends Component {
         let compareSelected = statesCompare.map((state) => 
           <li className="selected-list">{state}</li>
         ) 
-        
+        // var compareDisplay
+        // for (let i = 1; i < this.state.historicDataArray; i = i+2) {
+        //    compareDisplay = updatedStateData.map((state)=> 
+        //   <div className="compare-info selected-data">
+        //   <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
+        //   {<GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>}
+        //   </div>
+        //   )
+        // }
+
+        let count = 1;
         let compareDisplay = updatedStateData.map((state)=> 
         <div className="compare-info selected-data">
           <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
-          <h4>Positive Cases: {state.positive}</h4>
-          <h4>Negative Cases: {state.negative}</h4>
+          {<GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>}
         </div>
         )
+
+        let testing = this.state.historicDataArray.filter(state => state !== 0)
+        let please = testing.map((state) =>
+          <GraphsCompare historyArray={state}/>
+        )
+        // .map((state) => 
+        // <GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>
+        // )
+        
 
         return(
           <div>
               <Modal show={this.state.show} handleClose={this.hideModal}>
                   <span onClick={this.hideModal} className="close">&times;</span>
                   <h3>Select the state you want to compare to {abbrState(this.props.current.state, 'name')}: </h3>
+                  {this.state.blah}
                   <div className="form-and-selected-list">
                     <form className="state-form" onSubmit={this.handleSubmit}>
                             <select className="state-select" value={this.state.value} onChange={this.handleChange} mutiple="true">
-                                    {/* <option value="placeholder">Select a State...</option> */}
                                     {stateOptions}
                             </select>
-                        <input className="button" type="submit" value="Select"></input>
+                        <input className="button" type="submit" value="Compare"></input>
                     </form>
                     <div>
                       <h4 className="selected-list">Comparing:</h4>
@@ -134,10 +187,10 @@ export default class compareStates extends Component {
                       <div className="compare-content__info">
                         <div className="compare-info current-data">
                             <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3>
-                            <h4>Positive Cases: {this.props.current.positive}</h4>
-                            <h4>Negative Cases: {this.props.current.negative}</h4>
+                            {<Graphs data={this.props.data} current={this.props.current} historic={this.props.historic}/>}
                         </div>
-                        {compareDisplay}
+                        {/* {compareDisplay} */}
+                        {please}
                       </div>
                   </div>
               </Modal>

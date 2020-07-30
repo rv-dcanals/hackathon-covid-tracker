@@ -1,25 +1,19 @@
-export function abbrState(input, to) {
-    // USAGE:
-// abbrState('ny', 'name');
-// --> 'New York'
-// abbrState('New York', 'abbr');
-// --> 'NY'
+var pops = {
+    'AK': 731000,
+    'AS': 49400,
+    'AZ': 7200000,
+    'AR': 3017000,
+    'CA': 39500000,
+    'CO': 5700000,
+    'CT': 3500000,
+    'DE': 973000,
+    'DC': 705000,
+    'FL': 21400000,
+    'GA': 10610000,
+    'GU': 168480,
+    'HI': 
 
-    
-     var states = [
-        ['Alabama', 'AL'],
-        ['Alaska', 'AK'],
-        ['American Samoa', 'AS'],
-        ['Arizona', 'AZ'],
-        ['Arkansas', 'AR'],
-        ['California', 'CA'],
-        ['Colorado', 'CO'],
-        ['Connecticut', 'CT'],
-        ['Delaware', 'DE'],
-        ['District Of Columbia', 'DC'],
-        ['Florida', 'FL'],
-        ['Georgia', 'GA'],
-        ['Guam', 'GU'],
+}
         ['Hawaii', 'HI'],
         ['Idaho', 'ID'],
         ['Illinois', 'IL'],
@@ -63,24 +57,3 @@ export function abbrState(input, to) {
         ['West Virginia', 'WV'],
         ['Wisconsin', 'WI'],
         ['Wyoming', 'WY'],
-    ];
-
-    var i; // Reusable loop variable
-    
-    if (to === 'abbr') {
-        input = input.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
-        for (i = 0; i < states.length; i++) {
-            if (states[i][0] === input) {
-                console.log(states[i][1])
-                return (states[i][1]);
-            }
-        }
-    } else if (to === 'name') {
-        // input = input.toUpperCase();
-        for (i = 0; i < states.length; i++) {
-            if (states[i][1] === input) {
-                return (states[i][0]);
-            }
-        }
-    }
-}

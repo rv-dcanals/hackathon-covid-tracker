@@ -67,7 +67,6 @@ export default class App extends Component {
           <div className="body">
           {(this.state.region || this.state.countryCode) &&
           <StateSelect location={userLocation}/>}
-          {/* <Compare/> */}
           </div>
       </div>
     );
