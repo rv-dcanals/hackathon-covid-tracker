@@ -168,6 +168,7 @@ app.post("/updateRiskQuiz", (request, result) => {
 });
 
 
+//Increments the number of times a state was added to a comparison being made
 app.post("/stateComparisonAdded", (request, result) => {
   if (verifyCountry(request)) {
     incrementEvent(request, 'stateComparisonAdded');
@@ -176,6 +177,7 @@ app.post("/stateComparisonAdded", (request, result) => {
 });
 
 
+//Increments the number of times a comparison between multiple states was viewed
 app.post("/comparisonViewed", (request, result) => {
   if (verifyCountry(request)) {
     incrementEvent(request, 'comparisonViewed');
@@ -184,6 +186,7 @@ app.post("/comparisonViewed", (request, result) => {
 });
 
 
+//Increments the number of times the compare states button was clicked
 app.post("/compareStateClicked", (request, result) => {
   if (verifyCountry(request)) {
     incrementEvent(request, 'compareStateClicked');
