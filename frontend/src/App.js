@@ -43,9 +43,6 @@ export default class App extends Component {
       fetch('http://ip-api.com/json/')
       .then(response => response.json())
       .then(data => {
-        console.log(data); //Also has city, longitude, and latitude
-        // console.log(data.region); //This is the 2-letter state name
-        // if not a US state (ie PR) i want the country code - data.countryCode
         this.setState({
           region: data.region,
           countryCode: data.countryCode

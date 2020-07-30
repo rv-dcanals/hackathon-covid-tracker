@@ -78,7 +78,6 @@ export default class StateSelect extends Component {
                 infoData: result,
                 link: selectedInfo.covid19Site
             })
-            console.log(this.state.link)
         })
     }
 
@@ -92,7 +91,6 @@ export default class StateSelect extends Component {
         event.preventDefault(); 
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
         var updatedLink = this.state.infoData.filter(data => data.state===this.state.valueAbbr)[0]
-        console.log(updatedLink)
         this.setState({
             info: updatedState[0],
             link: updatedLink.covid19Site
@@ -117,7 +115,6 @@ export default class StateSelect extends Component {
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
-        console.log(this.props.location)
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">

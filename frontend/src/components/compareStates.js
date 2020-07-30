@@ -60,7 +60,7 @@ export default class compareStates extends Component {
     showModal = () => {
         this.setState({ show: true });
         //Update backend every time the button is clicked for the state of origin
-        this.updateValue('compareStateClicked', this.props.data.state);
+        this.updateValue('compareStateClicked', this.props.current.state);
       };
     
       hideModal = () => {
