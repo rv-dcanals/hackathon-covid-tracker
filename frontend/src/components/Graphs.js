@@ -11,9 +11,8 @@ export default class Graphs extends Component {
         this.state = {
 
         };
-    }
+        console.log(this.props.historic);
 
-    componentDidMount() {
     }
 
     render() {
@@ -22,25 +21,25 @@ export default class Graphs extends Component {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: "COVID OVER TIME"
+                text: "Positive COVID Results in NC"
             },
             axisY: {
-                title: "Number of iPhones ( in Million )",
+                title: "Positive Results",
                 includeZero: false,
             },
             data: [
                 {
                     type: "area",
-                    xValueFormatString: "YYYY",
+               
                     yValueFormatString: "#,##0.## Million",
                     dataPoints: [
-                        { x: new Date(2017, 0), y: 7.6 },
-                        { x: new Date(2016, 0), y: 7.3 },
-                        { x: new Date(2015, 0), y: 6.4 },
-                        { x: new Date(2014, 0), y: 5.3 },
-                        { x: new Date(2013, 0), y: 4.5 },
-                        { x: new Date(2012, 0), y: 3.8 },
-                        { x: new Date(2011, 0), y: 3.2 }
+                        { x: new Date(2020, 6, 23), y: 7.6 },
+                        { x: new Date(2020, 6, 24), y: 7.3 },
+                        { x: new Date(2020, 6, 25), y: 6.4 },
+                        { x: new Date(2020, 6, 26), y: 5.3 },
+                        { x: new Date(2020, 6, 27), y: 4.5 },
+                        { x: new Date(2020, 6, 28), y: 3.8 },
+                        { x: new Date(2020, 6, 29), y: 3.2 }
                     ]
                 }
             ]
