@@ -124,6 +124,22 @@ const incrementUniversalValue = (value) => {
   firebase.database().ref('allData').child(value).set(firebase.database.ServerValue.increment(1));
 }
 
+/*
+ * 
+ * 
+ * @param req
+ * @param value 
+ */
+const saveRiskQuizResult = (req, value) => {
+  //If country is US, increment that value by 1
+  if (req.body.country === 'US') { 
+    const stateQuiz = getState(req).child("events").child("riskQuiz");
+  }
+
+  //Increment the value by 1 for the country
+  const countryQuiz = getCountry(req).child("events").child("riskQuiz");
+}
+
 
 
 //Updates the count of state select whenever the state select button is pulled up
@@ -142,6 +158,12 @@ app.post("/updateMapLoads", (request, result) => {
     incrementValue(request, 'mapLoads');
     incrementUniversalValue('allMapLoads');
     sendSuccessCode(result, "mapLoads");
+  }
+});
+
+app.post("/updateRiskQuiz", (request, result) => {
+  if (verifyCountry(request)) {
+
   }
 });
 
