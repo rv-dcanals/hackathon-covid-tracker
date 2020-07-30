@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import '../styles/StateSelect.css';
 import '../styles/buttons.css';
 import { abbrState } from '../functions/stateAbbr.js';
+import Quiz from "./Quiz"
 import Compare from './compareStates';
+import Modal from "react-modal"
+
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -17,11 +20,36 @@ export default class StateSelect extends Component {
             region: this.props.location,
             regionFull: abbrState(this.props.location, 'name'),
             link: '',
-            infoData: []
+            infoData: [],
+            modalIsOpen: false
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
+
+    /*
+     * Sends a post request using the state values to the backend
+     * where the values are updated accordingly
+     * 
+     * @param endpoint = the endpoint of the post request 
+     * @param value = the value of the state origin (if needed, leave as an empty string otherwise)
+     */
+    updateValue = (endpoint, value) => {
+        fetch('http://localhost:3000/' + endpoint, {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+            {
+                country: 'US', 
+                region: value === '' ? this.state.valueAbbr : value,
+            }
+            )
+        })
+        .then(response => response.json());
+    };
 
     componentDidMount() {
         fetch("https://covidtracking.com/api/states")
@@ -63,7 +91,6 @@ export default class StateSelect extends Component {
             this.setState({valueAbbr: 'VI'})
         }
     }
-
     handleSubmit(event) {
         event.preventDefault(); 
         console.log(this.state.valueAbbr)
@@ -73,13 +100,27 @@ export default class StateSelect extends Component {
             info: updatedState[0],
             link: updatedLink.covid19Site
         })
+        this.updateValue('updateMapLoads', '');
+        this.updateValue('updateStateSelect', this.state.region);
       }
+
+    openQuiz() {
+        this.setState({
+            modalIsOpen: true
+        })
+    }
+    closeQuiz() {
+        this.setState({
+            modalIsOpen: false
+        })
+    }
 
     render() {
         const { info, stateList, link } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
+        console.log(this.props.location)
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">
@@ -98,9 +139,20 @@ export default class StateSelect extends Component {
             <div className="data">
                 <h3>Positive Cases: {info.positive}</h3>
                 <h3>Negative Cases: {info.negative}</h3>
+            </div>                
+            <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
+            <div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={() => this.closeQuiz()}
+                    contentLabel="Example Modal"
+                    ariaHideApp={false}
+                >
+                    <Quiz closeModal={() => this.closeQuiz()}/>
+            </Modal>
             </div>
             <div>
-            {<Compare data={this.state.result} current={this.state.info}/>}
+            {<Compare data={this.state.result} current={this.state.info} origin={this.state.region}/>}
             </div>
         </div>
         )
