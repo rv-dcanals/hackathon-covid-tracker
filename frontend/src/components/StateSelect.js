@@ -169,7 +169,7 @@ export default class StateSelect extends Component {
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
-            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}               
+                          
             <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
             <div>
                 <Modal
@@ -181,9 +181,8 @@ export default class StateSelect extends Component {
                     <Quiz origin={this.state.region} closeModal={() => this.closeQuiz()}/>
             </Modal>
             </div>
-            <div>
-            {<Compare data={this.state.result} current={this.state.info} origin={this.state.region}/>}
-            </div>
+            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>} 
+        </div>
         </div>
         )
 

@@ -138,32 +138,19 @@ export default class compareStates extends Component {
         let compareSelected = statesCompare.map((state) => 
           <li className="selected-list">{state}</li>
         ) 
-        // var compareDisplay
-        // for (let i = 1; i < this.state.historicDataArray; i = i+2) {
-        //    compareDisplay = updatedStateData.map((state)=> 
-        //   <div className="compare-info selected-data">
-        //   <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
-        //   {<GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>}
-        //   </div>
-        //   )
-        // }
 
-        let count = 1;
+        // let count = 1;
         let compareDisplay = updatedStateData.map((state)=> 
         <div className="compare-info selected-data">
           <h3 className="state-name">{abbrState(state.state, 'name')}</h3>
-          {<GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>}
+          {/* {<GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>} */}
         </div>
-        )
+         )
 
-        let testing = this.state.historicDataArray.filter(state => state !== 0)
-        let please = testing.map((state) =>
+        let filteredArray = this.state.historicDataArray.filter(state => state !== 0)
+        let comparedGraphs = filteredArray.map((state) =>
           <GraphsCompare historyArray={state}/>
         )
-        // .map((state) => 
-        // <GraphsCompare data={this.props.data} current={this.props.current} historic={this.props.historic} stateName={state.state} historyArray={this.state.historicDataArray[1]}/>
-        // )
-        
 
         return(
           <div>
@@ -186,11 +173,11 @@ export default class compareStates extends Component {
                   <div className={showHideCompareContent}>
                       <div className="compare-content__info">
                         <div className="compare-info current-data">
-                            <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3>
+                            {/* <h3 className="state-name">{abbrState(this.props.current.state, 'name')}</h3> */}
                             {<Graphs data={this.props.data} current={this.props.current} historic={this.props.historic}/>}
                         </div>
-                        {/* {compareDisplay} */}
-                        {please}
+                        {compareDisplay}
+                        {comparedGraphs}
                       </div>
                   </div>
               </Modal>
