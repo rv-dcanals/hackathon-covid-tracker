@@ -145,7 +145,7 @@ export default class StateSelect extends Component {
                     contentLabel="Example Modal"
                     ariaHideApp={false}
                 >
-                    <Quiz closeModal={() => this.closeQuiz()}/>
+                    <Quiz origin={this.state.region} closeModal={() => this.closeQuiz()}/>
             </Modal>
             </div>
             <div>
