@@ -1,7 +1,7 @@
 import React, { useEffect, Component } from 'react';
-import firebase from "./Firebase/firebase.js"
+// import firebase from "./Firebase/firebase"
 import './App.css';
-import Stateselect from './components/StateSelect';
+import StateSelect from './components/StateSelect';
 import Title from './components/Title';
 
 
@@ -43,7 +43,7 @@ export default class App extends Component {
       fetch('http://ip-api.com/json/')
       .then(response => response.json())
       .then(data => {
-        // console.log(data); //Also has city, longitude, and latitude
+        console.log(data); //Also has city, longitude, and latitude
         // console.log(data.region); //This is the 2-letter state name
         // if not a US state (ie PR) i want the country code - data.countryCode
         this.setState({
@@ -65,13 +65,13 @@ export default class App extends Component {
         userLocation = region
       }
       return (
-          <div className="App">
-              <Title name="COVID-19 Data"/>
-              <div className="body">
-              {(this.state.region || this.state.countryCode) &&
-              <Stateselect location={userLocation}/>}
-              </div>
+      <div className="App">
+          <Title name="COVID-19 Data"/>
+          <div className="body">
+          {(this.state.region || this.state.countryCode) &&
+          <StateSelect location={userLocation}/>}
           </div>
-        );
-    }
+      </div>
+    );
+  }
 }

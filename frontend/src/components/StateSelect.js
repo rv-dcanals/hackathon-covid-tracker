@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import '../styles/StateSelect.css';
 import '../styles/buttons.css';
 import { abbrState } from '../functions/stateAbbr.js';
+import Quiz from "./Quiz"
 import Compare from './compareStates';
 import Graphs from './Graphs';
+import Modal from "react-modal"
+
 
 export default class StateSelect extends Component {
     constructor(props) {
@@ -20,7 +23,8 @@ export default class StateSelect extends Component {
             link: '',
             infoData: [],
             historicData: [],
-            positiveHistory: []
+            positiveHistory: [],
+            modalIsOpen: false
         };
         this.handleChange = this.handleChange.bind(this); 
         this.handleSubmit = this.handleSubmit.bind(this); 
@@ -102,7 +106,6 @@ export default class StateSelect extends Component {
         }
 
     }
-
     handleSubmit(event) {
         event.preventDefault(); 
         var updatedState = this.state.result.filter(data => data.state===this.state.valueAbbr)
@@ -128,11 +131,23 @@ export default class StateSelect extends Component {
         })
       }
 
+    openQuiz() {
+        this.setState({
+            modalIsOpen: true
+        })
+    }
+    closeQuiz() {
+        this.setState({
+            modalIsOpen: false
+        })
+    }
+
     render() {
         const { info, stateList, link, positiveHistory } = this.state; 
         let stateOptions = stateList.map((state) => 
             <option key={state} value={state}>{state}</option> 
         ); 
+        console.log(this.props.location)
         return(
         <div className="state-selection">
             <div className ="header-and-dropdown">
@@ -155,7 +170,20 @@ export default class StateSelect extends Component {
             </div>
             <div>
             {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
-            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
+            {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}               
+            <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
+            <div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={() => this.closeQuiz()}
+                    contentLabel="Example Modal"
+                    ariaHideApp={false}
+                >
+                    <Quiz closeModal={() => this.closeQuiz()}/>
+            </Modal>
+            </div>
+            <div>
+            {<Compare data={this.state.result} current={this.state.info} origin={this.state.region}/>}
             </div>
         </div>
         )
