@@ -90,6 +90,14 @@ export default class StateSelect extends Component {
      }
 
     handleChange(event) {
+        fetch("https://covidtracking.com/api/v1/states/" + abbrState(event.target.value, 'abbr').toLowerCase() + "/daily.json")
+        .then(res => res.json())
+        .then(data => {
+           console.log(data)
+           this.setState({
+                historicData: data
+           })
+        })
         this.setState({
             value: event.target.value,
             valueAbbr: abbrState(event.target.value, 'abbr')
@@ -97,6 +105,7 @@ export default class StateSelect extends Component {
         if (event.target.value ==="US Virgin Islands") { 
             this.setState({valueAbbr: 'VI'})
         }
+
     }
 
     handleSubmit(event) {

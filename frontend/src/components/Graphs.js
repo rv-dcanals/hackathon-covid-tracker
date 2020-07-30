@@ -9,7 +9,6 @@ export default class Graphs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
         };
     }
 
@@ -17,6 +16,7 @@ export default class Graphs extends Component {
     }
 
     render() {
+        console.log(this.props.historic)
         const options = {
             theme: "light2",
             animationEnabled: true,
