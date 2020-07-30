@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 // import firebase from "./Firebase/firebase"
 import './App.css';
-import StateSelect from './components/StateSelect';
-import Title from './components/Title';
+import StateSelect from './Components/StateSelect';
+import Title from './Components/Title';
 
 
 export default class App extends Component { 
