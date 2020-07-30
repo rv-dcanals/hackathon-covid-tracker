@@ -149,7 +149,7 @@ export default class StateSelect extends Component {
             </Modal>
             </div>
             <div>
-            {<Compare data={this.state.result} current={this.state.info}/>}
+            {<Compare data={this.state.result} current={this.state.info} origin={this.state.region}/>}
             </div>
         </div>
         )

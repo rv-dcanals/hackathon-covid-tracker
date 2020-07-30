@@ -124,6 +124,22 @@ const incrementUniversalValue = (value) => {
   firebase.database().ref('allData').child(value).set(firebase.database.ServerValue.increment(1));
 }
 
+/*
+ * 
+ * 
+ * @param req
+ * @param value 
+ */
+const saveRiskQuizResult = (req, value) => {
+  //If country is US, increment that value by 1
+  if (req.body.country === 'US') { 
+    const stateQuiz = getState(req).child("events").child("riskQuiz");
+  }
+
+  //Increment the value by 1 for the country
+  const countryQuiz = getCountry(req).child("events").child("riskQuiz");
+}
+
 
 
 //Updates the count of state select whenever the state select button is pulled up
@@ -145,6 +161,38 @@ app.post("/updateMapLoads", (request, result) => {
   }
 });
 
+app.post("/updateRiskQuiz", (request, result) => {
+  if (verifyCountry(request)) {
+
+  }
+});
+
+
+//Increments the number of times a state was added to a comparison being made
+app.post("/stateComparisonAdded", (request, result) => {
+  if (verifyCountry(request)) {
+    incrementEvent(request, 'stateComparisonAdded');
+    sendSuccessCode(result, "stateComparisonAdded");
+  }
+});
+
+
+//Increments the number of times a comparison between multiple states was viewed
+app.post("/comparisonViewed", (request, result) => {
+  if (verifyCountry(request)) {
+    incrementEvent(request, 'comparisonViewed');
+    sendSuccessCode(result, "comparisonViewed");
+  }
+});
+
+
+//Increments the number of times the compare states button was clicked
+app.post("/compareStateClicked", (request, result) => {
+  if (verifyCountry(request)) {
+    incrementEvent(request, 'compareStateClicked');
+    sendSuccessCode(result, "compareStateClicked");
+  }
+});
 
 
 //Updates the number of times the site has been visited
