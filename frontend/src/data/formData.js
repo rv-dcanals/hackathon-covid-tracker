@@ -30,7 +30,9 @@ let ageData = [
 ];
 let sexData = [
     {value:'male', label: 'Male'}, 
-    {value:'female', label:'Female'}
+    {value:'female', label:'Female'},
+    {value:'nonbinary', label:'Non-Binary'},
+    {value:'other', label:'Other'}
     ];
 let protectionData = [
     {value:"Wear a mask", label:"Wear a mask"},
