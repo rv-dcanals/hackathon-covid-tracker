@@ -171,17 +171,17 @@ export default class StateSelect extends Component {
             <div class="two-buttons">
             {<Compare data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>}
                           
-                          <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
-                          <div>
-                              <Modal
-                                  isOpen={this.state.modalIsOpen}
-                                  onRequestClose={() => this.closeQuiz()}
-                                  contentLabel="Example Modal"
-                                  ariaHideApp={false}
-                              >
-                                  <Quiz origin={this.state.region} closeModal={() => this.closeQuiz()}/>
-                          </Modal>
-                          </div>
+            <div className="button" onClick={() => this.openQuiz()}>Take a Quiz!</div>
+                {/* <div> */}
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onRequestClose={() => this.closeQuiz()}
+                        contentLabel="Example Modal"
+                        ariaHideApp={false}
+                    >
+                        <Quiz origin={this.state.region} closeModal={() => this.closeQuiz()}/>
+                </Modal>
+                {/* </div> */}
             </div>
             {this.state.info && <Graphs data={this.state.result} current={this.state.info} historic={this.state.positiveHistory}/>} 
         </div>
