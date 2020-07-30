@@ -126,6 +126,7 @@ export default class StateSelect extends Component {
             <div>
             {<Compare data={this.state.result} current={this.state.info}/>}
             {<Graphs data={this.state.result} current={this.state.info}/>}
+            
             </div>
         </div>
         )
